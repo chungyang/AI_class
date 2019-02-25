@@ -62,17 +62,11 @@ public class Sudoku {
 			for(int i = 0; i < 9; i++){
 				int index = rowNumber * 9 + i;
 				neighbors.add(index);
-//				if(index != j && assignments[index] > 0){
-//					varDomain[j][assignments[index] - 1] = false;
-//				}
 			}
 			
 			//Add row neighbors
 			for(int i = colNumber; i < 81; i += 9){
 				neighbors.add(i);
-//				if(i != j && assignments[i] > 0){
-//					varDomain[j][assignments[i] - 1] = false;
-//				}
 			}
 
 			//Check 3x3 grid consistency
@@ -83,9 +77,6 @@ public class Sudoku {
 				for(int k = gridCol; k < gridCol + 3; k++){
 					int index = i * 9 + k;
 					neighbors.add(index);
-//					if(index != j && assignments[index] > 0){
-//						varDomain[j][assignments[index] - 1] = false;
-//					}
 				}
 			}
 			neighbors.remove(j);
@@ -133,6 +124,21 @@ public class Sudoku {
 		for(int i = 0; i < this.varDomain[index].length; i++){
 			this.varDomain[index][i] = true;
 		}
+	}
+	
+	public void deleteFromDomain(int index, int value){
+		this.varDomain[index][value - 1] = false;
+	}
+	
+	public List<Integer> getDomainValues(int index){
+		List<Integer> values = new LinkedList();
+		
+		for(int i = 0; i < this.varDomain[index].length; i++){
+			if(this.varDomain[index][i]){
+				values.add(i + 1);
+			}
+		}
+		return values;
 	}
 	
 	public int[] getAssignments(){

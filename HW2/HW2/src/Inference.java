@@ -1,6 +1,6 @@
 
 public interface Inference {
 	
-	public boolean inference(Sudoku sudoku);
+	public boolean infer(Sudoku sudoku);
 
 }
