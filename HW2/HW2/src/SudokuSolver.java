@@ -5,6 +5,11 @@ public class SudokuSolver{
 	private List<Inference> inferences = new LinkedList();
 
 	public boolean backTrackingSearch(Sudoku sudoku, boolean useMRV){
+		if(this.inferences != null){
+			for(Inference inference : inferences){
+				inference.reset();
+			}
+		}
 		return simpleBackTracking(sudoku, useMRV);
 	}
 
@@ -158,7 +163,6 @@ public class SudokuSolver{
 					List<Integer> domainValues = sudoku.getDomainValues(nodes[0]);
 
 					if(sudoku.getDomainValues(nodes[0]).size() == 0){
-						System.out.println(nodes[0] + " " + nodes[1]);
 						return false;
 					}
 					for(int neighbor : sudoku.getNeighbors().get(nodes[0])){
@@ -202,19 +206,37 @@ public class SudokuSolver{
 
 			return false;
 		}
+
+		@Override
+		public void reset() {
+			this.arcs = null;
+		}
 	}
 
 	public static void main(String[] args) {
-		Sudoku sudoku = new Sudoku("puz-076.txt");
-		sudoku.printSudoku();
-
-		ACthree ac3 = new ACthree();
+		String[] puzzles = new String[]{"001","002","010","015","025","026","048","051","062","076","081","082","090",
+				"095","099","100"};
 
 		SudokuSolver solver = new SudokuSolver();
+		ACthree ac3 = new ACthree();
 		solver.addInference(ac3);
-		System.out.println(solver.backTrackingSearch(sudoku,true));
-		System.out.println(sudoku.getGuesses());
-		sudoku.printSudoku();
 
+		for(String puzzle : puzzles){
+			System.out.println("puz-"+ puzzle + ".txt");
+			Sudoku sudoku1 = new Sudoku("puz-" + puzzle + ".txt");
+			Sudoku sudoku2 = new Sudoku("puz-" + puzzle + ".txt");
+			
+
+	
+			System.out.println(solver.backTrackingSearch(sudoku1,true));
+			System.out.println("");
+			sudoku1.printSudoku();
+			System.out.println("");
+			System.out.println(solver.backTrackingSearch(sudoku2,false));
+			sudoku2.printSudoku();
+			System.out.println("");
+			System.out.println(sudoku1.getGuesses() + " & " + sudoku2.getGuesses());
+
+		}
 	}
 }

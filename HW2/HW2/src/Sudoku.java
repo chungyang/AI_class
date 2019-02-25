@@ -41,14 +41,13 @@ public class Sudoku {
 					}
 				}
 			}
-
+			buildNeighbors();
 			file.close();
 		}
 		catch(IOException e)
 		{
 			System.out.println("File read error: " + e);
 		}
-		buildNeighbors();
 	}
 	
 	private void buildNeighbors(){
@@ -158,10 +157,15 @@ public class Sudoku {
 	}
 	
 	public void incrementGuess(int index){
+		int count = 0;
+		
 		for(boolean domain : varDomain[index]){
 			if(domain){
-				this.guesses++;
+				count++;
 			}
+		}
+		if(count > 0){
+			this.guesses += count - 1;
 		}
 	}
 	
